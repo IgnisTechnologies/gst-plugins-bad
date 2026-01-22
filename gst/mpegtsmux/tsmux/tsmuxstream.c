@@ -204,6 +204,16 @@ tsmux_stream_new (guint16 pid, guint stream_type)
       stream->is_opus = TRUE;
       stream->pi.flags |= TSMUX_PACKET_FLAG_PES_FULL_HEADER;
       break;
+    case TSMUX_ST_PS_ID3:
+      /* ID3 timed metadata for HLS */
+      stream->id = 0xBD;        /* private_stream_1 */
+      stream->stream_type = TSMUX_ST_METADATA_PES;  /* 0x15 - metadata in PES */
+      stream->is_meta = TRUE;
+      stream->is_id3 = TRUE;
+      stream->pi.flags |=
+          TSMUX_PACKET_FLAG_PES_FULL_HEADER |
+          TSMUX_PACKET_FLAG_PES_DATA_ALIGNMENT;  /* Required for ExoPlayer */
+      break;
     default:
       /* Might be a custom stream type implemented by a subclass */
       break;
@@ -1042,6 +1052,15 @@ tsmux_stream_default_get_es_descrs (TsMuxStream * stream,
         GST_DEBUG ("adding KLVA registration descriptor");
         g_ptr_array_add (pmt_stream->descriptors, descriptor);
       }
+      break;
+    case TSMUX_ST_METADATA_PES:
+      if (stream->is_id3) {
+        /* Add ID3 registration descriptor for timed metadata */
+        descriptor = gst_mpegts_descriptor_from_registration ("ID3 ", NULL, 0);
+        GST_DEBUG ("adding ID3 registration descriptor");
+        g_ptr_array_add (pmt_stream->descriptors, descriptor);
+      }
+      break;
     default:
       break;
   }

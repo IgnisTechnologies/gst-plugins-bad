@@ -564,6 +564,8 @@ gst_base_ts_mux_create_stream (GstBaseTsMux * mux, GstBaseTsMuxPad * ts_pad)
     ts_pad->prepare_func = gst_base_ts_mux_prepare_opus;
   } else if (strcmp (mt, "meta/x-klv") == 0) {
     st = TSMUX_ST_PS_KLV;
+  } else if (strcmp (mt, "meta/x-id3") == 0) {
+    st = TSMUX_ST_PS_ID3;
   } else if (strcmp (mt, "image/x-jpc") == 0) {
     /*
      * See this document for more details on standard:

@@ -123,6 +123,7 @@ static GstStaticPadTemplate gst_mpeg_ts_mux_sink_factory =
         "channels = (int) [1, 8], "
         "channel-mapping-family = (int) {0, 1};"
         "subpicture/x-dvb; application/x-teletext; meta/x-klv, parsed=true;"
+        "meta/x-id3, parsed=true;"
         "image/x-jpc, alignment = (string) frame, profile = (int)[0, 49151];"));
 
 static GstStaticPadTemplate gst_mpeg_ts_mux_src_factory =

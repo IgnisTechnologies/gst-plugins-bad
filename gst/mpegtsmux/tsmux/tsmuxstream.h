@@ -117,6 +117,7 @@ enum TsMuxStreamType {
   /* later extensions */
   TSMUX_ST_AUDIO_AAC                  = 0x0f,
   TSMUX_ST_VIDEO_MPEG4                = 0x10,
+  TSMUX_ST_METADATA_PES               = 0x15,  /* metadata carried in PES packets */
   TSMUX_ST_VIDEO_H264                 = 0x1b,
   TSMUX_ST_VIDEO_HEVC                 = 0x24,
   TSMUX_ST_VIDEO_JP2K = 0x21,
@@ -129,6 +130,7 @@ enum TsMuxStreamType {
   TSMUX_ST_PS_TELETEXT                = 0x8d,
   TSMUX_ST_PS_KLV                     = 0x8e,    /* only used internally */
   TSMUX_ST_PS_OPUS                    = 0x8f,    /* only used internally */
+  TSMUX_ST_PS_ID3                     = 0x90,    /* only used internally for ID3 metadata */
   TSMUX_ST_PS_DVD_SUBPICTURE          = 0xff,
 
   /* Non-standard definitions */
@@ -206,6 +208,9 @@ struct TsMuxStream {
 
   gboolean is_meta;
   gboolean is_audio;
+
+  /* ID3 */
+  gboolean is_id3;
 
   /* Opus */
   gboolean is_opus;
